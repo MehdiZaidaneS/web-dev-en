@@ -7,7 +7,7 @@ const {
   createDog,
   updateDog,
   deleteDog,
-} = require("./dogHandlers"); // 'dogHandlers.js' contains the route handlers
+} = require("./dogHandlers"); // 'doogHandlers.js' contains the route handlers
 
 // Middleware to parse JSON
 app.use(express.json());

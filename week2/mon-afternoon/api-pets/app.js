@@ -9,7 +9,7 @@ const {
   deletePet,
 } = require("./petHandlers"); 
 
-// Middleware to parse JSON
+// Middleeware to parse JSON
 app.use(express.json());
 
 // ROUTES
