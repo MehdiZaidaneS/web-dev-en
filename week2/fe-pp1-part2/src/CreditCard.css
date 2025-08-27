@@ -1,0 +1,41 @@
+.credit-card {
+  width: 320px;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  transition: transform 0.2s ease;
+}
+
+.credit-card:hover {
+  transform: scale(1.02);
+}
+
+.card-header {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.card-logo {
+  width: 60px;
+}
+
+.card-number {
+  font-size: 1.4rem;
+  letter-spacing: 2px;
+}
+
+.card-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.card-owner {
+  font-weight: bold;
+  font-size: 1rem;
+}
