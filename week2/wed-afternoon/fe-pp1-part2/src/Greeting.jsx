@@ -8,7 +8,7 @@ function Greetings(props) {
       greeting = "Moi";
       break;
     case "de":
-      greeting = "Hallo";
+      greeting = "Halloo";
       break;
     case "en":
       greeting = "Hello";
