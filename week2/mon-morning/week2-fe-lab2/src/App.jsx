@@ -3,7 +3,7 @@ function Hello() {
 }
 
 function Bye() {
-  return <p>Goodbye, React!</p>;
+  return <p>Goodbyee, React!</p>;
 }
 
 
