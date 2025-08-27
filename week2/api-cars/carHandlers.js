@@ -36,8 +36,8 @@ const updateCar = (req, res) => {
 
     const updatedCar = Car.updateOneById(carId, { model, color, age })
 
-    if (updateCar) {
-        res.json(updateCar)
+    if (updatedCar) {
+        res.json(updatedCar)
     } else {
         res.status(404).json({ message: "Car not found" })
     }
