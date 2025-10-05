@@ -1,90 +1,90 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const LogInPage = ({setIsAuthenticated}) => {
+const LogInPage = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate();
 
-    const API_URL = "/api/users"
+  // Environment-aware backend URL
+  const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
-    const [form, setForm] = useState({
-        email: "",
-        password: "",
-    });
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
 
-    const handleInputChange = (e) => {
-        const { name, value } = e.target
-        setForm({
-            ...form,
-            [name]: value,
-        });
-    }
-
-const logInUser = async (body) => {
-
+  const logInUser = async (body) => {
     try {
-        const response = await fetch(`${API_URL}/login`, {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-                "Content-Type": "application/json",
-            }
-        })
+      const response = await fetch(`${API_BASE_URL}/users/login`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (!response.ok) {
-            console.error("Error adding product")
-        }
+      if (!response.ok) {
+        const message = await response.text();
+        throw new Error(message || "Error logging in user");
+      }
 
-        const data = await response.json()
-        localStorage.setItem("token", data.token)
-        return data
-
+      const data = await response.json();
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      return data;
     } catch (error) {
-        console.error("Fail creating new product")
+      console.error("Failed to log in user:", error);
+      return null;
     }
-}
+  };
 
-const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", form);
 
-    logInUser(form)
+    const result = await logInUser(form);
+
+    if (result) {
+      setIsAuthenticated(true);
+      navigate("/");
+    }
+
+    // Reset form
     setForm({
-
-        email: "",
-        password: "",
-    
+      email: "",
+      password: "",
     });
+  };
 
-    setIsAuthenticated(true);
-    navigate("/");
-};
-
-return (
+  return (
     <div className="create">
-        <h2>Log In</h2>
-        <form onSubmit={submitForm}>
-            
+      <h2>Log In</h2>
+      <form onSubmit={submitForm}>
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          required
+          value={form.email}
+          onChange={handleInputChange}
+        />
 
-            <label>Email:</label>
-            <input
-                name="email"
-                required
-                value={form.email}
-                onChange={handleInputChange}
-            ></input>
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          required
+          value={form.password}
+          onChange={handleInputChange}
+        />
 
-            <label>Password:</label>
-            <input
-                type="password"
-                name="password"
-                required
-                value={form.password}
-                onChange={handleInputChange}
-            />
-
-            <button type="submit">Submit</button>
-        </form>
+        <button type="submit">Log In</button>
+      </form>
     </div>
-);
+  );
 };
 
 export default LogInPage;
